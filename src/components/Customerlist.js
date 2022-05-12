@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef, useCallback } from "react"
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-material.css'
+import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Snackbar from '@mui/material/Snackbar'
@@ -15,6 +16,11 @@ function Customerlist() {
     const [customers, setCustomers] = useState([])
     const [open, setOpen] = useState(false)
     const [msg, setMsg] = useState('')
+
+    const gridRef = useRef();
+    const csvExport = useCallback(() => {
+        gridRef.current.api.exportDataAsCsv();
+      }, []);
 
     useEffect(() => {
         fetchCustomers()
@@ -116,7 +122,7 @@ function Customerlist() {
                         <IconButton color="error" onClick={() => deleteCustomer(params.data.links[0].href)}>
                             <DeleteIcon />
                         </IconButton>
-                    </Stack>    
+                    </Stack>
                 </>
             }
         },
@@ -127,7 +133,7 @@ function Customerlist() {
         { field: 'city' },
         { field: 'email' },
         { field: 'phone' }
-        
+
     ]
 
     const gridSettings = {
@@ -142,9 +148,13 @@ function Customerlist() {
 
     return (
         <>
-            <Addcustomer addCustomer={addCustomer} />
+            <Stack direction='row' spacing={1}>
+                <Addcustomer addCustomer={addCustomer} />
+                <Button variant="outlined" onClick={csvExport}>Download CSV</Button>
+            </Stack>
             <div className="ag-theme-material" style={{ height: 600, marginRight: 10 }}>
                 <AgGridReact
+                    ref={gridRef}
                     columnDefs={columns}
                     rowData={customers}
                     pagination={true}
