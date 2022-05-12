@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 function Customer(props) {
 
-    const [asikas, setAsiakas] = useState([])
+    const [asiakas, setAsiakas] = useState([])
 
     const fetchLink = (info, linkki) => {
         console.log(`### Customer.js: fetching from ${info} with the link below:\n${linkki}`)
@@ -14,10 +14,10 @@ function Customer(props) {
         .then(data => setAsiakas(data))
     }, [])
 
-    console.log(`### Customer.js: asiakas.firstname: ${asikas.firstname}`)
+    console.log(`### Customer.js: asiakas.firstname: ${asiakas.firstname}`)
 
     return (
-        <>{`${asikas.firstname} ${asikas.lastname}`}</>
+        <>{`${asiakas.firstname} ${asiakas.lastname}`}</>
     )
 }
 export default Customer

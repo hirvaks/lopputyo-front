@@ -49,7 +49,7 @@ function Editcustomer({ updateCustomer, params, linkki }){
 
     return (
         <div>
-        <IconButton onClick={handleClickOpen}>
+        <IconButton color="secondary" onClick={handleClickOpen}>
             <EditIcon />
         </IconButton>
         <Dialog open={open} onClose={handleClose}>
